@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
@@ -84,6 +85,15 @@ app.get('/api/v1/health', (req, res) => {
 // Error handler
 app.use(errorHandler);
 
+// ✅ SERVE FRONTEND IN PRODUCTION
+const publicPath = path.join(__dirname, 'public');
+app.use(express.static(publicPath));
+
+// CATCH-ALL FOR SPA
+app.get('*', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
+
 // ── Auto-reactivation cron job (runs every hour) ──────────────────────────────
 // Finds all inactive guards whose reactivateAt has passed and sets them active.
 // Uses only Node's built-in setInterval — no extra package needed.
@@ -134,7 +144,7 @@ runReactivationJob();
 setInterval(runReactivationJob, 60 * 60 * 1000);
 // ─────────────────────────────────────────────────────────────────────────────
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 // ✅ USE server.listen (NOT app.listen)
 server.listen(PORT, () => {

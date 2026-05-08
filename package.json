@@ -1,0 +1,14 @@
+{
+  "name": "fire-security-system",
+  "version": "1.0.0",
+  "description": "Fire Security Management System",
+  "scripts": {
+    "install-all": "npm install --prefix frontend && npm install --prefix backend",
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd .. && rm -rf backend/public && mkdir -p backend/public && cp -r frontend/dist/* backend/public/",
+    "start": "node backend/server.js",
+    "dev": "npm run dev --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

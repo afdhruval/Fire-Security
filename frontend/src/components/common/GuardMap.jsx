@@ -28,8 +28,8 @@ const FitBounds = ({ guards, fitted, setFitted }) => {
   return null;
 };
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5001";
-const API        = import.meta.env.VITE_API_BASE_URL || "http://localhost:5001/api/v1";
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "";
+const API        = import.meta.env.VITE_API_BASE_URL || "/api/v1";
 
 const isValidCoord = (g) =>
   g.location &&

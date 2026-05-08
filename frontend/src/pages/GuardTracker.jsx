@@ -8,49 +8,49 @@ import { io } from "socket.io-client";
 
 // ── Fix Leaflet default icon (same as GuardMap.jsx) ─────────────────────────
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon   from "leaflet/dist/images/marker-icon.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
-  iconUrl:       markerIcon,
-  shadowUrl:     markerShadow,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
 });
 
 // ── 25 preset Gujarat locations ──────────────────────────────────────────────
 const GUJARAT_LOCATIONS = [
-  { label: "Ahmedabad",    latitude: 23.0225, longitude: 72.5714 },
-  { label: "Surat",        latitude: 21.1702, longitude: 72.8311 },
-  { label: "Vadodara",     latitude: 22.3072, longitude: 73.1812 },
-  { label: "Rajkot",       latitude: 22.3039, longitude: 70.8022 },
-  { label: "Bhavnagar",    latitude: 21.7645, longitude: 72.1519 },
-  { label: "Jamnagar",     latitude: 22.4707, longitude: 70.0577 },
-  { label: "Junagadh",     latitude: 21.5222, longitude: 70.4579 },
-  { label: "Gandhinagar",  latitude: 23.2156, longitude: 72.6369 },
-  { label: "Anand",        latitude: 22.5645, longitude: 72.9289 },
-  { label: "Navsari",      latitude: 20.9467, longitude: 72.9520 },
-  { label: "Mehsana",      latitude: 23.5880, longitude: 72.3693 },
-  { label: "Morbi",        latitude: 22.8173, longitude: 70.8370 },
-  { label: "Surendranagar",latitude: 22.7278, longitude: 71.6406 },
-  { label: "Bharuch",      latitude: 21.7051, longitude: 72.9959 },
-  { label: "Ankleshwar",   latitude: 21.6262, longitude: 73.0090 },
-  { label: "Valsad",       latitude: 20.5992, longitude: 72.9342 },
-  { label: "Amreli",       latitude: 21.6046, longitude: 71.2210 },
-  { label: "Botad",        latitude: 22.1692, longitude: 71.6671 },
-  { label: "Patan",        latitude: 23.8493, longitude: 72.1266 },
-  { label: "Palanpur",     latitude: 24.1722, longitude: 72.4381 },
-  { label: "Porbandar",    latitude: 21.6426, longitude: 69.6093 },
-  { label: "Dwarka",       latitude: 22.2394, longitude: 68.9678 },
-  { label: "Somnath",      latitude: 20.9060, longitude: 70.3842 },
-  { label: "Dahod",        latitude: 22.8329, longitude: 74.2574 },
-  { label: "Godhra",       latitude: 22.7783, longitude: 73.6143 },
+  { label: "Ahmedabad", latitude: 23.0225, longitude: 72.5714 },
+  { label: "Surat", latitude: 21.1702, longitude: 72.8311 },
+  { label: "Vadodara", latitude: 22.3072, longitude: 73.1812 },
+  { label: "Rajkot", latitude: 22.3039, longitude: 70.8022 },
+  { label: "Bhavnagar", latitude: 21.7645, longitude: 72.1519 },
+  { label: "Jamnagar", latitude: 22.4707, longitude: 70.0577 },
+  { label: "Junagadh", latitude: 21.5222, longitude: 70.4579 },
+  { label: "Gandhinagar", latitude: 23.2156, longitude: 72.6369 },
+  { label: "Anand", latitude: 22.5645, longitude: 72.9289 },
+  { label: "Navsari", latitude: 20.9467, longitude: 72.9520 },
+  { label: "Mehsana", latitude: 23.5880, longitude: 72.3693 },
+  { label: "Morbi", latitude: 22.8173, longitude: 70.8370 },
+  { label: "Surendranagar", latitude: 22.7278, longitude: 71.6406 },
+  { label: "Bharuch", latitude: 21.7051, longitude: 72.9959 },
+  { label: "Ankleshwar", latitude: 21.6262, longitude: 73.0090 },
+  { label: "Valsad", latitude: 20.5992, longitude: 72.9342 },
+  { label: "Amreli", latitude: 21.6046, longitude: 71.2210 },
+  { label: "Botad", latitude: 22.1692, longitude: 71.6671 },
+  { label: "Patan", latitude: 23.8493, longitude: 72.1266 },
+  { label: "Palanpur", latitude: 24.1722, longitude: 72.4381 },
+  { label: "Porbandar", latitude: 21.6426, longitude: 69.6093 },
+  { label: "Dwarka", latitude: 22.2394, longitude: 68.9678 },
+  { label: "Somnath", latitude: 20.9060, longitude: 70.3842 },
+  { label: "Dahod", latitude: 22.8329, longitude: 74.2574 },
+  { label: "Godhra", latitude: 22.7783, longitude: 73.6143 },
 ];
 
 const DUTY_STATUSES = ["On Duty", "Leave", "Off Duty", "Break"];
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5001";
-const API        = import.meta.env.VITE_API_BASE_URL || "http://localhost:5001/api/v1";
+const API = import.meta.env.VITE_API_BASE_URL || "http://localhost:5001/api/v1";
 
 // ── Auto-fit map bounds ──────────────────────────────────────────────────────
 const FitBounds = ({ guards, fitted, setFitted }) => {
@@ -70,9 +70,9 @@ const FitBounds = ({ guards, fitted, setFitted }) => {
 // EMPLOYEE VIEW — unchanged from original
 // ─────────────────────────────────────────────────────────────────────────────
 const EmployeeTrackerView = ({ user, token }) => {
-  const [status, setStatus]     = useState("Starting...");
-  const [coords, setCoords]     = useState(null);
-  const [error, setError]       = useState(null);
+  const [status, setStatus] = useState("Starting...");
+  const [coords, setCoords] = useState(null);
+  const [error, setError] = useState(null);
   const [lastSent, setLastSent] = useState(null);
   const guardId = user?._id || user?.id;
 
@@ -82,11 +82,11 @@ const EmployeeTrackerView = ({ user, token }) => {
 
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
-        const latitude  = pos.coords.latitude;
+        const latitude = pos.coords.latitude;
         const longitude = pos.coords.longitude;
         setCoords({ latitude, longitude });
         try {
-          const res  = await fetch(`${API}/location/update`, {
+          const res = await fetch(`${API}/location/update`, {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
             body: JSON.stringify({ guardId, latitude, longitude }),
@@ -153,13 +153,13 @@ const EmployeeTrackerView = ({ user, token }) => {
 // readOnly=false → Admin only: can assign location + duty status
 // ─────────────────────────────────────────────────────────────────────────────
 const AdminTrackerView = ({ token, readOnly = false }) => {
-  const [guards, setGuards]         = useState([]);
-  const [mapGuards, setMapGuards]   = useState([]);
-  const [error, setError]           = useState(null);
+  const [guards, setGuards] = useState([]);
+  const [mapGuards, setMapGuards] = useState([]);
+  const [error, setError] = useState(null);
   const [lastUpdate, setLastUpdate] = useState(null);
-  const [fitted, setFitted]         = useState(false);
-  const [saving, setSaving]         = useState({});   // { [guardId]: true } while saving
-  const socketRef                   = useRef(null);
+  const [fitted, setFitted] = useState(false);
+  const [saving, setSaving] = useState({});   // { [guardId]: true } while saving
+  const socketRef = useRef(null);
 
   // Local edit state — { [guardId]: { locationLabel, dutyStatus } }
   const [edits, setEdits] = useState({});
@@ -200,15 +200,15 @@ const AdminTrackerView = ({ token, readOnly = false }) => {
       setGuards(prev => prev.map(g =>
         String(g._id) === String(guardId)
           ? {
-              ...g,
-              name:          name          || g.name,
-              status:        status        || g.status,
-              dutyStatus:    dutyStatus    !== undefined ? dutyStatus    : g.dutyStatus,
-              locationLabel: locationLabel !== undefined ? locationLabel : g.locationLabel,
-              location: latitude && longitude
-                ? { ...g.location, latitude, longitude }
-                : g.location,
-            }
+            ...g,
+            name: name || g.name,
+            status: status || g.status,
+            dutyStatus: dutyStatus !== undefined ? dutyStatus : g.dutyStatus,
+            locationLabel: locationLabel !== undefined ? locationLabel : g.locationLabel,
+            location: latitude && longitude
+              ? { ...g.location, latitude, longitude }
+              : g.location,
+          }
           : g
       ));
       if (latitude && longitude) {
@@ -239,9 +239,9 @@ const AdminTrackerView = ({ token, readOnly = false }) => {
     setEdits(prev => ({ ...prev, [guardId]: { ...prev[guardId], [field]: value } }));
 
   const handleAssign = async (guard) => {
-    const locLabel    = getEdit(guard._id, "locationLabel", guard.locationLabel || "");
-    const dutyStatus  = getEdit(guard._id, "dutyStatus",   guard.dutyStatus    || "Off Duty");
-    const preset      = GUJARAT_LOCATIONS.find(l => l.label === locLabel);
+    const locLabel = getEdit(guard._id, "locationLabel", guard.locationLabel || "");
+    const dutyStatus = getEdit(guard._id, "dutyStatus", guard.dutyStatus || "Off Duty");
+    const preset = GUJARAT_LOCATIONS.find(l => l.label === locLabel);
 
     setSaving(prev => ({ ...prev, [guard._id]: true }));
     try {
@@ -261,8 +261,8 @@ const AdminTrackerView = ({ token, readOnly = false }) => {
 
   const dutyColor = (status) => {
     if (status === "On Duty") return "#16a34a";
-    if (status === "Leave")   return "#d97706";
-    if (status === "Break")   return "#2563eb";
+    if (status === "Leave") return "#d97706";
+    if (status === "Break") return "#2563eb";
     return "#6b7280";
   };
 
@@ -425,7 +425,7 @@ const AdminTrackerView = ({ token, readOnly = false }) => {
                   <span style={{
                     fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "20px",
                     background: g.status === "active" ? "#dcfce7" : "#f3f4f6",
-                    color:      g.status === "active" ? "#16a34a"  : "#6b7280",
+                    color: g.status === "active" ? "#16a34a" : "#6b7280",
                   }}>
                     {g.status === "active" ? "Active" : "Inactive"}
                   </span>
@@ -468,7 +468,7 @@ const GuardTracker = () => {
   // HR: read-only view (sees all guard data, map, duty status — no edits)
   // Employee: read-only view (sees where all guards are — no edits)
   if (role === "Admin") return <AdminTrackerView token={token} readOnly={false} />;
-  if (role === "HR")    return <AdminTrackerView token={token} readOnly={true} />;
+  if (role === "HR") return <AdminTrackerView token={token} readOnly={true} />;
   return <AdminTrackerView token={token} readOnly={true} />;
 };
 
